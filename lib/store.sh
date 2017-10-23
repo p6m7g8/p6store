@@ -73,26 +73,49 @@ p6_store_scalar_set() {
 
     local val=$(p6_file_display "$file")
 
+    p6_file_create "$file"
     p6_file_write "$file" "$new"
 
     p6_return "$val"
 }
 
 ##############################################################################
+p6_store_hash_get() {
+    local store="$1"
+    local name="$2"
+    local key="$3"
+
+    if ! p6_string_blank "$key"; then
+	local disk_dir=$(p6_store__disk "$store" "$name")
+
+	local key_hash=$(p6_hash "$key")
+	local pair_dir="$disk_dir/$key_hash"
+
+	local val=$(p6_file_display "$pair_dir/value")
+	p6_return "$val"
+    fi
+}
+
 p6_store_hash_set() {
     local store="$1"
     local name="$2"
     local key="$3"
     local val="$4"
 
-    local key_hash=$(p6_hash "$key")
+    if ! p6_string_blank "$key"; then
+	local key_hash=$(p6_hash "$key")
+	local disk_dir=$(p6_store__disk "$store" "$name")
+	local pair_dir="$disk_dir/$key_hash"
 
-    local disk_dir=$(p6_store__disk "$store" "$name")
-    local pair_dir="$disk_dir/$key_hash"
+	p6_dir_mk "$pair_dir"
+	p6_file_create "$pair_dir/key"
+	p6_file_write "$pair_dir/key" "$key"
 
-    p6_dir_mk "$pair_dir"
-    p6_file_write "$pair_dir/key" "$key"
-    p6_file_write "$pair_dir/value" "$val"
+	local old=$(p6_file_display "$pair_dir/value")
+	p6_file_create "$pair_dir/value"
+	p6_file_write "$pair_dir/value" "$val"
+	p6_return "$old"
+    fi
 }
 
 p6_store_hash_delete() {
@@ -113,28 +136,105 @@ p6_store_hash_delete() {
 }
 
 ##############################################################################
+p6_store_list__i() {
+    local disk_dir="$1"
+    local next="$2"
+
+    # current i
+    local i_file="$disk_dir/i"
+    if [ -n "$next" ]; then
+	p6_file_write "$i_file" "$next"
+    else
+	local i_val=-1
+	if ! p6_file_exists "$i_file"; then
+	    p6_file_create "$i_file"
+	    i_val=0
+	else
+	    i_val=$(p6_file_display "$i_file")
+	fi
+
+	p6_return "$i_val"
+    fi
+}
+
+p6_store_list_get() {
+    local store="$1"
+    local name="$2"
+    local i="$3"
+
+    if ! p6_string_blank "$i"; then
+	local disk_dir=$(p6_store__disk "$store" "$name")
+	local item_dir="$disk_dir/$i"
+
+	p6_file_display "$item_dir/data"
+    fi
+}
+
 p6_store_list_add() {
     local store="$1"
     local name="$2"
     local new="$3"
 
-    local rand=$(p6_mkpasswd "4")
+    local disk_dir=$(p6_store__disk "$store" "$name")
+
+    # current i
+    local i_val=$(p6_store_list__i "$disk_dir")
+
+    # make item dir
+    local item_dir="$disk_dir/$i_val"
+    p6_dir_mk "$item_dir"
+
+    # save data
+    p6_file_create "$item_dir/data"
+    if ! p6_string_blank "$new"; then
+	p6_file_write "$item_dir/data" "$new"
+    fi
+
+    # increment
+    local next=$(p6_math_inc "$i_val")
+    p6_store_list__i "$disk_dir" "$next"
+
+    p6_return "$i_val"
+}
+
+p6_store_list_item_delete() {
+    local store="$1"
+    local name="$2"
+    local old="$3"
 
     local disk_dir=$(p6_store__disk "$store" "$name")
-    local item_dir="$disk_dir/$rand"
 
-    p6_dir_mk "$item_dir"
-    p6_file_create "$item_dir/data"
-    p6_file_write "$item_dir/data" "$val"
+    # current i
+    local i_val=$(p6_store_list__i "$disk_dir")
+
+    local j=0
+    while [ $j -lt $i_val ]; do
+	local item_dir="$disk_dir/$j"
+
+	local data=$(p6_file_display "$item_dir/data")
+	if [ x"$old" = x"$data" ]; then
+
+	    local junk=$(p6_store_list_delete "$store" "$name" "$j")
+	    p6_return "$j"
+	    break
+	fi
+	j=$(p6_math_inc "$j")
+    done
 }
 
 p6_store_list_delete() {
     local store="$1"
     local name="$2"
+    local i="$3"
 
-    local new="$3"
+    if ! p6_string_blank "$i"; then
+	local disk_dir=$(p6_store__disk "$store" "$name")
+	local item_dir="$disk_dir/$i"
+	local old=$(p6_file_display "$item_dir/data")
+	p6_dir_rmrf "$item_dir"
 
-    p6_return
+	p6_return "$old"
+    fi
 }
 
 ##############################################################################
