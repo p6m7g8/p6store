@@ -1,6 +1,13 @@
-#!/bin/sh
+#!/bin/sh -vx
 
 main() {
+
+    pwd
+    env
+    uname -a
+    /bin/sh --version
+    whoami
+    find -type f ../../p6m7g8
 
     . ../p6test/lib/_colors.sh
     . ../p6test/lib/_util.sh
