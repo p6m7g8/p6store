@@ -2,6 +2,12 @@
 
 main() {
 
+    pwd
+    ls ..
+    ls ../../
+    cd ~
+    ls
+
     . ../p6test/lib/_colors.sh
     . ../p6test/lib/_util.sh
     . ../p6test/lib/backends/tap.sh
