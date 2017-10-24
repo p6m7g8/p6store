@@ -2,12 +2,6 @@
 
 main() {
 
-    pwd
-    env
-    uname -a
-    whoami
-    find ../../p6m7g8 -type f
-
     . ../p6test/lib/_colors.sh
     . ../p6test/lib/_util.sh
     . ../p6test/lib/backends/tap.sh
