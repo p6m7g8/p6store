@@ -1,4 +1,7 @@
 language:	bash
 
+before_script:
+    - /bin/sh bin/deps.sh
+
 script:	
     - /bin/sh bin/harness.sh
