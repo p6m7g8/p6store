@@ -10,8 +10,6 @@ main() {
     . ../p6test/lib/harness.sh
     . ../p6test/lib/api.sh
 
-    exit 0
-
     p6_test_harness_tests_run "t"
 
 
