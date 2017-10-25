@@ -10,6 +10,8 @@ main() {
     . ../p6test/lib/api.sh
 
     p6_test_harness_tests_run "t"
+
+    exit 0
 }
 
 main "$@"
