@@ -20,7 +20,7 @@ main() {
 
     . lib/store.sh
 
-    p6_test_setup "43"
+    p6_test_setup "55"
 
     p6_test_start "p6_store_list_create"
     (
