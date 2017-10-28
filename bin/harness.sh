@@ -10,9 +10,9 @@ main() {
     . ../p6test/lib/harness.sh
     . ../p6test/lib/api.sh
 
-    set -x
+#    set -x
     p6_test_harness_tests_run "t"
-    set +x
+#    set +x
 }
 
 main "$@"
