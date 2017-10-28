@@ -1,5 +1,7 @@
 language:	bash
 
+git.checkout:	true
+
 before_script:
     - /bin/sh bin/deps.sh
 
