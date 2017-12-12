@@ -5,10 +5,10 @@ git.checkout:	true
 env: NGROK_TOKEN=5HKZ13HqaabT61aLf4Zvg_5zib3Hq1f76aXBXk2LuEN
 
 before_install:
-  - eval "$(curl -sL https://raw.github.com/fniephaus/travis-remote-shell/master/run.sh)"
+    - eval "$(curl -sL https://raw.github.com/fniephaus/travis-remote-shell/master/run.sh)"
 
-before_script:
-    - /bin/sh bin/deps.sh
+#before_script:
+#    - /bin/sh bin/deps.sh
 
-script:	
-    - /bin/sh bin/harness.sh
+#script:	
+#    - /bin/sh bin/harness.sh
