@@ -47,16 +47,16 @@ main() {
 	p6_test_run "p6_store_hash_set" "$s" "hash_name"
 	p6_test_assert_run_ok "store, hash_name"
 
-	p6_test_run "p6_store_hash_set" "$s" "hash_name" "k"
-	p6_test_assert_run_ok "store, hash_name, k"
-
 	local k1=k
+
+	p6_test_run "p6_store_hash_set" "$s" "hash_name" "$k1"
+	p6_test_assert_run_ok "store, hash_name, $k1"
 
 	local key_hash=$(p6_hash "$k1")
 	p6_test_assert_dir_exists "$s/hash_name/$key_hash" "pair dir created: $s/hash_name/$key_hash"
 
 	local key=$(p6_file_display "$s/hash_name/$key_hash/key")
-	p6_test_assert_eq "$k1" "$key" "key retreived as $k1"
+	p6_test_assert_eq "$k1" "$key" "key($key) retreived as $k1"
 
 	local val=$(p6_file_display "$s/hash_name/$key_hash/value")
 	p6_test_assert_blank "$val" "no value"
