@@ -9,13 +9,8 @@ main() {
     . ../p6test/lib/harness.sh
     . ../p6test/lib/api.sh
 
-    . ../p6common/lib/const.sh
-    . ../p6common/lib/io.sh
-    . ../p6common/lib/tokens.sh
-    . ../p6common/lib/dir.sh
-    . ../p6common/lib/file.sh
-    . ../p6common/lib/string.sh
-    . ../p6common/lib/transients.sh
+    . ../p6common/lib/_bootstrap.sh
+    p6_bootstrap "../p6common"
 
     . lib/store.sh
 

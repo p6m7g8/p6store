@@ -88,7 +88,7 @@ p6_store_hash_get() {
     if ! p6_string_blank "$key"; then
 	local disk_dir=$(p6_store__disk "$store" "$name")
 
-	local key_hash=$(p6_hash "$key")
+	local key_hash=$(p6_token_hash "$key")
 	local pair_dir="$disk_dir/$key_hash"
 
 	local val=$(p6_file_display "$pair_dir/value")
@@ -103,7 +103,7 @@ p6_store_hash_set() {
     local val="$4"
 
     if ! p6_string_blank "$key"; then
-	local key_hash=$(p6_hash "$key")
+	local key_hash=$(p6_token_hash "$key")
 	local disk_dir=$(p6_store__disk "$store" "$name")
 	local pair_dir="$disk_dir/$key_hash"
 
@@ -123,7 +123,7 @@ p6_store_hash_delete() {
     local name="$2"
     local key="$3"
 
-    local key_hash=$(p6_hash "$key")
+    local key_hash=$(p6_token_hash "$key")
 
     local disk_dir=$(p6_store__disk "$store" "$name")
     local pair_dir="$disk_dir/$key_hash"

@@ -9,13 +9,8 @@ main() {
     . ../p6test/lib/harness.sh
     . ../p6test/lib/api.sh
 
-    . ../p6common/lib/const.sh
-    . ../p6common/lib/io.sh
-    . ../p6common/lib/tokens.sh
-    . ../p6common/lib/dir.sh
-    . ../p6common/lib/file.sh
-    . ../p6common/lib/string.sh
-    . ../p6common/lib/transients.sh
+    . ../p6common/lib/_bootstrap.sh
+    p6_bootstrap "../p6common"
 
     . lib/store.sh
 
@@ -52,7 +47,7 @@ main() {
 	p6_test_run "p6_store_hash_set" "$s" "hash_name" "$k1"
 	p6_test_assert_run_ok "store, hash_name, $k1"
 
-	local key_hash=$(p6_hash "$k1")
+	local key_hash=$(p6_token_hash "$k1")
 	p6_test_assert_dir_exists "$s/hash_name/$key_hash" "pair dir created: $s/hash_name/$key_hash"
 
 	local key=$(p6_file_display "$s/hash_name/$key_hash/key")
@@ -66,7 +61,7 @@ main() {
 	p6_test_run "p6_store_hash_set" "$s" "hash_name" "$k2" "v"
 	p6_test_assert_run_ok "store, hash_name, $k2->v"
 
-	key_hash=$(p6_hash "$k2")
+	key_hash=$(p6_token_hash "$k2")
 	p6_test_assert_dir_exists "$s/hash_name/$key_hash" "pair dir created: $s/hash_name/$key_hash"
 
 	key=$(p6_file_display "$s/hash_name/$key_hash/key")
@@ -112,7 +107,7 @@ main() {
 	p6_test_assert_run_ok "store, hash_name, k"
 
 	local k1=k
-	local key_hash=$(p6_hash "$k1")
+	local key_hash=$(p6_token_hash "$k1")
 	p6_test_assert_dir_not_exists "$s/hash_name/$key_hash" "pair dir DNE: $s/hash_name/$key_hash"
 
 	local k2=j
