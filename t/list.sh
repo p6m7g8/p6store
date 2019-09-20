@@ -2,21 +2,8 @@
 
 main() {
 
-    . ../p6test/lib/_colors.sh
-    . ../p6test/lib/_util.sh
-    . ../p6test/lib/backends/tap.sh
-    . ../p6test/lib/asserts/aserts.sh
-    . ../p6test/lib/harness.sh
-    . ../p6test/lib/api.sh
-
-    . ../p6common/lib/const.sh
-    . ../p6common/lib/io.sh
-    . ../p6common/lib/math.sh
-    . ../p6common/lib/tokens.sh
-    . ../p6common/lib/dir.sh
-    . ../p6common/lib/file.sh
-    . ../p6common/lib/string.sh
-    . ../p6common/lib/transients.sh
+    . ../p6test/lib/_bootstrap.sh
+    p6_p6test_bootstrap "../p6test"
 
     . lib/store.sh
 
