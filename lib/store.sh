@@ -15,8 +15,6 @@
 #/ Synopsis:
 #/   Creates a temporal object store
 #/
-#/ Notes:
-#/   Depends on p6_transients
 ######################################################################
 p6_store_create() {
     local name="$1"     # name of store
@@ -24,7 +22,7 @@ p6_store_create() {
 
     local store=$(p6_transient_create "$name" "$max_objs")
 
-    p6_return "$store" # reference to object store
+    p6_return_obj_ref "$store" # reference to object store
 }
 
 ######################################################################
@@ -37,8 +35,6 @@ p6_store_create() {
 #	store - ref to store to delete
 #
 #>
-#/ Notes:
-#/   Depends on p6_transients
 ######################################################################
 p6_store_destroy() {
     local store="$1" # ref to store to delete
@@ -67,7 +63,7 @@ p6_store_ref() {
 
     local ref=$(p6_store__ref "$store")
 
-    p6_return "$ref" # ref to store
+    p6_return_obj_ref "$ref" # ref to store
 }
 
 ######################################################################
@@ -89,7 +85,7 @@ p6_store_copy() {
 
     local copy=$(p6_store__copy "$store")
 
-    p6_return "$copy" # copied store
+    p6_return_obj_ref "$copy" # copied store
 }
 
 ######################################################################
@@ -177,7 +173,7 @@ p6_store_scalar_get() {
     local disk_dir=$(p6_store__disk "$store" "$name")
     local val=$(p6_file_display "$disk_dir/data")
 
-    p6_return "$val" # value of the scalar
+    p6_return_str "$val" # value of the scalar
 }
 
 ######################################################################
@@ -209,7 +205,7 @@ p6_store_scalar_set() {
     p6_file_create "$file"
     p6_file_write "$file" "$new"
 
-    p6_return "$val" # the value
+    p6_return_str "$val" # the value
 }
 
 ######################################################################
@@ -240,7 +236,7 @@ p6_store_hash_get() {
 	local pair_dir="$disk_dir/$key_hash"
 
 	local val=$(p6_file_display "$pair_dir/value")
-	p6_return "$val" # the value of the key
+	p6_return_str "$val" # the value of the key
     else
 	p6_return_void
     fi
@@ -281,7 +277,7 @@ p6_store_hash_set() {
 	local old=$(p6_file_display "$pair_dir/value")
 	p6_file_create "$pair_dir/value"
 	p6_file_write "$pair_dir/value" "$val"
-	p6_return "$old" # the previous value of key
+	p6_return_str "$old" # the previous value of key
     else
 	p6_return_void
     fi
@@ -317,7 +313,7 @@ p6_store_hash_delete() {
 
     p6_dir_rmrf "$pair_dir"
 
-    p6_return "$old_val" # previou key value
+    p6_return_str "$old_val" # previou key value
 }
 
 ######################################################################
@@ -346,7 +342,7 @@ p6_store_list_get() {
 
 	local item=$(p6_file_display "$item_dir/data")
 
-	p6_return "$item" # the item
+	p6_return_item_ref "$item" # the item
     fi
 }
 
@@ -390,7 +386,7 @@ p6_store_list_add() {
     local next=$(p6_math_inc "$i_val")
     p6_store_list__i "$disk_dir" "$next"
 
-    p6_return "$i_val" # value of added item
+    p6_return_str "$i_val" # value of added item
 }
 
 ######################################################################
@@ -427,7 +423,7 @@ p6_store_list_item_delete() {
 	if [ x"$old" = x"$data" ]; then
 
 	    local junk=$(p6_store_list_delete "$store" "$name" "$j")
-	    p6_return "$j" # indec of deleted item
+	    p6_return_size_t "$j" # index of deleted item
 	    break
 	fi
 	j=$(p6_math_inc "$j")
@@ -462,7 +458,7 @@ p6_store_list_delete() {
 	local old=$(p6_file_display "$item_dir/data")
 	p6_dir_rmrf "$item_dir"
 
-	p6_return "$old" # old item
+	p6_return_item_ref "$old" # old item
     else
 	p6_return_void
     fi
@@ -511,7 +507,7 @@ p6_store__disk() {
 
     local dir="$store/$name"
 
-    p6_return "$dir" # the on disk location as a path
+    p6_return_path "$dir" # the on disk location as a path
 }
 
 ######################################################################
