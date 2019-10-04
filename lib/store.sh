@@ -2,14 +2,14 @@
 #<
 #
 # Function:
-#	unkown store = p6_store_create(name, max_objs)
+#	obj_ref store = p6_store_create(name, max_objs)
 #
 #  Args:
 #	name - name of store
 #	max_objs - max objects
 #
 #  Returns:
-#	unkown - store: reference to object store
+#	obj_ref - store: reference to object store
 #
 #>
 #/ Synopsis:
@@ -48,13 +48,13 @@ p6_store_destroy() {
 #<
 #
 # Function:
-#	unkown ref = p6_store_ref(store)
+#	obj_ref ref = p6_store_ref(store)
 #
 #  Args:
 #	store - store to find ref of
 #
 #  Returns:
-#	unkown - ref: ref to store
+#	obj_ref - ref: ref to store
 #
 #>
 ######################################################################
@@ -70,13 +70,13 @@ p6_store_ref() {
 #<
 #
 # Function:
-#	unkown copy = p6_store_copy(store)
+#	obj_ref copy = p6_store_copy(store)
 #
 #  Args:
 #	store - store to copy
 #
 #  Returns:
-#	unkown - copy: copied store
+#	obj_ref - copy: copied store
 #
 #>
 ######################################################################
@@ -155,14 +155,14 @@ p6_store_hash_create() {
 #<
 #
 # Function:
-#	unkown val = p6_store_scalar_get(store, name)
+#	str val = p6_store_scalar_get(store, name)
 #
 #  Args:
 #	store - the store
 #	name - the name of the scalar
 #
 #  Returns:
-#	unkown - val: value of the scalar
+#	str - val: value of the scalar
 #
 #>
 ######################################################################
@@ -180,7 +180,7 @@ p6_store_scalar_get() {
 #<
 #
 # Function:
-#	unkown val = p6_store_scalar_set(store, name, new)
+#	str val = p6_store_scalar_set(store, name, new)
 #
 #  Args:
 #	store - the store
@@ -188,7 +188,7 @@ p6_store_scalar_get() {
 #	new - set scalar value to this
 #
 #  Returns:
-#	unkown - val: the value
+#	str - val: the value
 #
 #>
 ######################################################################
@@ -212,7 +212,7 @@ p6_store_scalar_set() {
 #<
 #
 # Function:
-#	unkown val = p6_store_hash_get(store, name, key)
+#	str val = p6_store_hash_get(store, name, key)
 #
 #  Args:
 #	store - the store
@@ -220,7 +220,7 @@ p6_store_scalar_set() {
 #	key - the key to get the value of
 #
 #  Returns:
-#	unkown - val: the value of the key
+#	str - val: the value of the key
 #
 #>
 ######################################################################
@@ -246,7 +246,7 @@ p6_store_hash_get() {
 #<
 #
 # Function:
-#	unkown old = p6_store_hash_set(store, name, key, val)
+#	str old = p6_store_hash_set(store, name, key, val)
 #
 #  Args:
 #	store - the store
@@ -255,7 +255,7 @@ p6_store_hash_get() {
 #	val - value to set
 #
 #  Returns:
-#	unkown - old: the previous value of key
+#	str - old: the previous value of key
 #
 #>
 ######################################################################
@@ -287,7 +287,7 @@ p6_store_hash_set() {
 #<
 #
 # Function:
-#	unkown old_val = p6_store_hash_delete(store, name, key)
+#	str old_val = p6_store_hash_delete(store, name, key)
 #
 #  Args:
 #	store - the store
@@ -295,7 +295,7 @@ p6_store_hash_set() {
 #	key - the key to delete
 #
 #  Returns:
-#	unkown - old_val: previou key value
+#	str - old_val: previou key value
 #
 #>
 ######################################################################
@@ -320,14 +320,14 @@ p6_store_hash_delete() {
 #<
 #
 # Function:
-#	unkown item = p6_store_list_get(store, name)
+#	item_ref item = p6_store_list_get(store, name)
 #
 #  Args:
 #	store - the store
 #	name - the name of the list
 #
 #  Returns:
-#	unkown - item: the item
+#	item_ref - item: the item
 #
 #>
 ######################################################################
@@ -350,7 +350,7 @@ p6_store_list_get() {
 #<
 #
 # Function:
-#	unkown i_val = p6_store_list_add(store, name, new)
+#	str i_val = p6_store_list_add(store, name, new)
 #
 #  Args:
 #	store - the store
@@ -358,7 +358,7 @@ p6_store_list_get() {
 #	new - new item to add
 #
 #  Returns:
-#	unkown - i_val: value of added item
+#	str - i_val: value of added item
 #
 #>
 ######################################################################
@@ -393,7 +393,7 @@ p6_store_list_add() {
 #<
 #
 # Function:
-#	unkown j = p6_store_list_item_delete(store, name, old)
+#	size_t j = p6_store_list_item_delete(store, name, old)
 #
 #  Args:
 #	store - the store
@@ -401,7 +401,7 @@ p6_store_list_add() {
 #	old - value to delete [1st one]
 #
 #  Returns:
-#	unkown - j: indec of deleted item
+#	size_t - j: index of deleted item
 #
 #>
 ######################################################################
@@ -436,14 +436,14 @@ p6_store_list_item_delete() {
 #<
 #
 # Function:
-#	unkown old = p6_store_list_delete(store, name)
+#	item_ref old = p6_store_list_delete(store, name)
 #
 #  Args:
 #	store - the store
 #	name - the name of the list
 #
 #  Returns:
-#	unkown - old: old item
+#	item_ref - old: old item
 #
 #>
 ######################################################################
@@ -490,14 +490,14 @@ p6_store__init_structure() {
 #<
 #
 # Function:
-#	unkown dir = p6_store__disk(store, name)
+#	path dir = p6_store__disk(store, name)
 #
 #  Args:
 #	store - the store
 #	name - the name of the list
 #
 #  Returns:
-#	unkown - dir: the on disk location as a path
+#	path - dir: the on disk location as a path
 #
 #>
 ######################################################################
