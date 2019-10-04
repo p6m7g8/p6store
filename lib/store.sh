@@ -534,7 +534,7 @@ p6_store_list__i() {
     local i_file="$disk_dir/i"
     if [ -n "$next" ]; then
 	p6_file_write "$i_file" "$next"
-	p6_return "$next" # new i value
+	p6_return_size_t "$next" # new i value
     else
 	local i_val=-1
 	if ! p6_file_exists "$i_file"; then
@@ -544,6 +544,6 @@ p6_store_list__i() {
 	    i_val=$(p6_file_display "$i_file")
 	fi
 
-	p6_return "$i_val" # i's value
+	p6_return_size_t "$i_val" # i's value
     fi
 }
