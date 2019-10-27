@@ -11,7 +11,7 @@
 p6_return_obj_ref() {
     local obj="$1"
 
-    p6__return "$obj"
+    p6_return__ "$obj"
 }
 
 ######################################################################
@@ -21,12 +21,12 @@ p6_return_obj_ref() {
 #	p6_return_item_ref(item)
 #
 #  Args:
-#	item - 
+#	item -
 #
 #>
 ######################################################################
 p6_return_item_ref() {
     local item="$1"
 
-    p6__return "$item"
+    p6_return__ "$item"
 }
