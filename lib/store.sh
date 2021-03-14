@@ -230,15 +230,15 @@ p6_store_hash_get() {
     local key="$3"   # the key to get the value of
 
     if ! p6_string_blank "$key"; then
-	local disk_dir=$(p6_store__disk "$store" "$name")
+        local disk_dir=$(p6_store__disk "$store" "$name")
 
-	local key_hash=$(p6_token_hash "$key")
-	local pair_dir="$disk_dir/$key_hash"
+        local key_hash=$(p6_token_hash "$key")
+        local pair_dir="$disk_dir/$key_hash"
 
-	local val=$(p6_file_display "$pair_dir/value")
-	p6_return_str "$val" # the value of the key
+        local val=$(p6_file_display "$pair_dir/value")
+        p6_return_str "$val" # the value of the key
     else
-	p6_return_void
+        p6_return_void
     fi
 }
 
@@ -266,20 +266,20 @@ p6_store_hash_set() {
     local val="$4"   # value to set
 
     if ! p6_string_blank "$key"; then
-	local key_hash=$(p6_token_hash "$key")
-	local disk_dir=$(p6_store__disk "$store" "$name")
-	local pair_dir="$disk_dir/$key_hash"
+        local key_hash=$(p6_token_hash "$key")
+        local disk_dir=$(p6_store__disk "$store" "$name")
+        local pair_dir="$disk_dir/$key_hash"
 
-	p6_dir_mk "$pair_dir"
-	p6_file_create "$pair_dir/key"
-	p6_file_write "$pair_dir/key" "$key"
+        p6_dir_mk "$pair_dir"
+        p6_file_create "$pair_dir/key"
+        p6_file_write "$pair_dir/key" "$key"
 
-	local old=$(p6_file_display "$pair_dir/value")
-	p6_file_create "$pair_dir/value"
-	p6_file_write "$pair_dir/value" "$val"
-	p6_return_str "$old" # the previous value of key
+        local old=$(p6_file_display "$pair_dir/value")
+        p6_file_create "$pair_dir/value"
+        p6_file_write "$pair_dir/value" "$val"
+        p6_return_str "$old" # the previous value of key
     else
-	p6_return_void
+        p6_return_void
     fi
 }
 
@@ -337,12 +337,12 @@ p6_store_list_get() {
     local i="$3"     # index of list item to return
 
     if ! p6_string_blank "$i"; then
-	local disk_dir=$(p6_store__disk "$store" "$name")
-	local item_dir="$disk_dir/$i"
+        local disk_dir=$(p6_store__disk "$store" "$name")
+        local item_dir="$disk_dir/$i"
 
-	local item=$(p6_file_display "$item_dir/data")
+        local item=$(p6_file_display "$item_dir/data")
 
-	p6_return_item_ref "$item" # the item
+        p6_return_item_ref "$item" # the item
     fi
 }
 
@@ -379,7 +379,7 @@ p6_store_list_add() {
     # save data
     p6_file_create "$item_dir/data"
     if ! p6_string_blank "$new"; then
-	p6_file_write "$item_dir/data" "$new"
+        p6_file_write "$item_dir/data" "$new"
     fi
 
     # increment
@@ -417,16 +417,16 @@ p6_store_list_item_delete() {
 
     local j=0
     while [ $j -lt $i_val ]; do
-	local item_dir="$disk_dir/$j"
+        local item_dir="$disk_dir/$j"
 
-	local data=$(p6_file_display "$item_dir/data")
-	if [ x"$old" = x"$data" ]; then
+        local data=$(p6_file_display "$item_dir/data")
+        if [ x"$old" = x"$data" ]; then
 
-	    local junk=$(p6_store_list_delete "$store" "$name" "$j")
-	    p6_return_size_t "$j" # index of deleted item
-	    break
-	fi
-	j=$(p6_math_inc "$j")
+            local junk=$(p6_store_list_delete "$store" "$name" "$j")
+            p6_return_size_t "$j" # index of deleted item
+            break
+        fi
+        j=$(p6_math_inc "$j")
     done
 
     p6_return_void
@@ -453,14 +453,14 @@ p6_store_list_delete() {
     local i="$3"     # index of item to delete
 
     if ! p6_string_blank "$i"; then
-	local disk_dir=$(p6_store__disk "$store" "$name")
-	local item_dir="$disk_dir/$i"
-	local old=$(p6_file_display "$item_dir/data")
-	p6_dir_rmrf "$item_dir"
+        local disk_dir=$(p6_store__disk "$store" "$name")
+        local item_dir="$disk_dir/$i"
+        local old=$(p6_file_display "$item_dir/data")
+        p6_dir_rmrf "$item_dir"
 
-	p6_return_item_ref "$old" # old item
+        p6_return_item_ref "$old" # old item
     else
-	p6_return_void
+        p6_return_void
     fi
 }
 
@@ -533,17 +533,17 @@ p6_store_list__i() {
     # current i
     local i_file="$disk_dir/i"
     if [ -n "$next" ]; then
-	p6_file_write "$i_file" "$next"
-	p6_return_size_t "$next" # new i value
+        p6_file_write "$i_file" "$next"
+        p6_return_size_t "$next" # new i value
     else
-	local i_val=-1
-	if ! p6_file_exists "$i_file"; then
-	    p6_file_create "$i_file"
-	    i_val=0
-	else
-	    i_val=$(p6_file_display "$i_file")
-	fi
+        local i_val=-1
+        if ! p6_file_exists "$i_file"; then
+            p6_file_create "$i_file"
+            i_val=0
+        else
+            i_val=$(p6_file_display "$i_file")
+        fi
 
-	p6_return_size_t "$i_val" # i's value
+        p6_return_size_t "$i_val" # i's value
     fi
 }
